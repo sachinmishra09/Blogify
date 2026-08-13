@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <%- include('./partials/head.ejs') %>
+        <title>Sign up</title>
+</head>
+
+<body style="background-color: rgb(146, 146, 146);">
+    <%- include('./partials/nav.ejs') %>
+
+        <div class="container mt-5">
+            <div class="row justify-content-center">
+                <div class="col-md-6 col-lg-5">
+
+                    <div class="card shadow-sm border-0">
+                        <div class="card-body p-4">
+
+                            <div class="text-center mb-4">
+                                <h2 class="fw-bold">Create an Account</h2>
+                                <p class="text-muted mb-0">
+                                    Sign up to get started
+                                </p>
+                            </div>
+
+                            <form action="/user/signup" method="POST">
+
+                                <!-- Full Name -->
+                                <div class="mb-3">
+                                    <label 
+                                    for="fullName" class="form-label">
+                                        Full Name
+                                    </label>
+
+                                    <input
+                                        type="text"
+                                        class="form-control"
+                                        id="fullName"
+                                        name="fullName"
+                                        placeholder="Enter your full name"
+                                        required
+                                    >
+                                </div>
+
+                                <!-- Email -->
+                                <div class="mb-3">
+                                    <label for="email" class="form-label">
+                                        Email Address
+                                    </label>
+
+                                    <input
+                                        type="email"
+                                        class="form-control"
+                                        id="email"
+                                        name="email"
+                                        placeholder="you@example.com"
+                                        required
+                                    >
+
+                                    <div class="form-text">
+                                        We'll never share your email with anyone else.
+                                    </div>
+                                </div>
+
+                                <!-- Password -->
+                                <div class="mb-3">
+                                    <label for="password" class="form-label">
+                                        Password
+                                    </label>
+
+                                    <input
+                                        type="password"
+                                        class="form-control"
+                                        id="password"
+                                        name="password"
+                                        placeholder="Create a password"
+                                        minlength="6"
+                                        required
+                                    >
+                                </div>
+
+                                <!-- Submit -->
+                                <button
+                                    type="submit"
+                                    class="btn btn-primary w-100"
+                                >
+                                    Create Account
+                                </button>
+
+                            </form>
+
+                            <div class="text-center mt-4">
+                                <span class="text-muted">
+                                    Already have an account?
+                                </span>
+
+                                <a href="/user/signin" class="text-decoration-none">
+                                    Sign in
+                                </a>
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+    <%- include('./partials/script.ejs') %>
+</body>
+
+</html>
