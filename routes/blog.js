@@ -1,12 +1,15 @@
 const { Router } = require("express");
 const multer = require('multer');
-const path = require('path')
+// const path = require('path') // for multer
+const { storage } = require("../utils/cloudinary"); // changed
 
 const Blog = require('../models/blog')
 const Comment = require("../models/comment");
 
 const router = Router();
 
+//  storing image using multer
+/*
 const storage = multer.diskStorage({ // store image using multer
   destination: function (req, file, cb) { // to store image
     cb(null, path.resolve(`./public/uploads/`));
@@ -16,6 +19,7 @@ const storage = multer.diskStorage({ // store image using multer
     cb(null, fileName)
   }
 })
+*/
 
 const upload = multer({ storage: storage })
 
@@ -71,7 +75,8 @@ router.post('/', upload.single("coverImage"), async (req, res) => {
         body,
         title,
         createdBy: req.user._id,
-        coverImageURL: `/uploads/${req.file.filename}`
+        // coverImageURL: `/uploads/${req.file.filename}` // using multer 
+        coverImageURL: req.file.path // changed — Cloudinary already gives the full hosted URL here
     })
 
     return res.redirect(`/blog/${blog._id}`);

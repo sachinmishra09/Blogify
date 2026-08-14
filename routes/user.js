@@ -1,10 +1,13 @@
 const { Router } = require("express");
 const User = require("../models/user");
 const multer = require('multer');
-const path = require('path')
+// const path = require('path')
+const { storage } = require("../utils/cloudinary"); // changed
 
 const router = Router();
 
+// storage using multer for image
+/*
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
         cb(null, path.resolve("./public/uploads"));
@@ -14,8 +17,9 @@ const storage = multer.diskStorage({
         cb(null, uniqueName);
     },
 });
+*/
 
-const upload = multer({ storage });
+const upload = multer({ storage }); // now points to Cloudinary storage
 
 router.get("/signin", (req, res) => {
     res.render("signin");
@@ -68,7 +72,8 @@ router.get('/profile-image', (req, res) => {
 router.post("/profile-image", upload.single("profileImage"), async (req, res) => { // route to change the profile image of the user using multer
     if (!req.user) return res.redirect("/user/signin");
 
-    const imagePath = `/uploads/${req.file.filename}`;
+    // const imagePath = `/uploads/${req.file.filename}`; // using multer
+    const imagePath = req.file.path; // changed — Cloudinary already gives the full hosted URL
 
     await User.findByIdAndUpdate(req.user._id, {
         profileImageURL: imagePath,
