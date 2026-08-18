@@ -2,13 +2,364 @@
 <html lang="en">
 
 <head>
+
+    <%- include('./partials/head.ejs') %>
+
+        <title>Create Blog | Blogify</title>
+
+        <!-- TinyMCE -->
+        <script src="https://cdn.tiny.cloud/1/<%= tinymceApiKey %>/tinymce/8/tinymce.min.js" referrerpolicy="origin">
+        </script>
+
+        <style>
+            body {
+                background: #81aff3;
+                min-height: 100vh;
+            }
+
+            /* Main wrapper */
+            .create-blog-wrapper {
+                max-width: 1100px;
+                margin: 50px auto;
+            }
+
+            /* Header */
+            .editor-header {
+                margin-bottom: 30px;
+            }
+
+            .editor-header h1 {
+                font-weight: 700;
+                color: #212529;
+                margin-bottom: 8px;
+            }
+
+            .editor-header p {
+                color: #6c757d;
+                margin-bottom: 0;
+                font-size: 16px;
+            }
+
+            /* Main Card */
+            .blog-editor-card {
+                background: white;
+                border-radius: 18px;
+                border: none;
+                box-shadow: 0 10px 35px rgba(0, 0, 0, 0.08);
+                overflow: hidden;
+            }
+
+            .blog-editor-body {
+                padding: 35px;
+            }
+
+            /* Labels */
+            .form-label {
+                font-weight: 600;
+                color: #343a40;
+                margin-bottom: 9px;
+            }
+
+            /* Title input */
+            .title-input {
+                height: 55px;
+                border-radius: 10px;
+                border: 1px solid #dee2e6;
+                font-size: 18px;
+                padding: 0 16px;
+                transition: all 0.2s ease;
+            }
+
+            .title-input:focus {
+                border-color: #0d6efd;
+                box-shadow: 0 0 0 3px rgba(13, 110, 253, 0.12);
+            }
+
+            /* File input */
+            .cover-upload {
+                border: 2px dashed #ced4da;
+                border-radius: 12px;
+                padding: 22px;
+                background: #f8f9fa;
+                transition: all 0.2s ease;
+            }
+
+            .cover-upload:hover {
+                border-color: #0d6efd;
+                background: #f1f7ff;
+            }
+
+            .cover-upload input {
+                border: none;
+                background: transparent;
+            }
+
+            /* Editor */
+            .editor-wrapper {
+                border-radius: 12px;
+                overflow: hidden;
+                border: 1px solid #dee2e6;
+            }
+
+            /* Publish section */
+            .publish-section {
+                margin-top: 30px;
+                padding-top: 25px;
+                border-top: 1px solid #e9ecef;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                gap: 20px;
+            }
+
+            .publish-info {
+                color: #6c757d;
+                font-size: 14px;
+            }
+
+            .publish-btn {
+                border-radius: 10px;
+                padding: 12px 28px;
+                font-weight: 600;
+                font-size: 16px;
+                transition: all 0.2s ease;
+            }
+
+            .publish-btn:hover {
+                transform: translateY(-2px);
+                box-shadow: 0 7px 18px rgba(13, 110, 253, 0.25);
+            }
+
+            /* Responsive */
+            @media (max-width: 768px) {
+
+                .create-blog-wrapper {
+                    margin: 25px 15px;
+                }
+
+                .blog-editor-body {
+                    padding: 22px;
+                }
+
+                .editor-header h1 {
+                    font-size: 28px;
+                }
+
+                .publish-section {
+                    flex-direction: column;
+                    align-items: stretch;
+                }
+
+                .publish-btn {
+                    width: 100%;
+                }
+
+            }
+        </style>
+
+</head>
+
+
+<body>
+
+    <!-- Navbar -->
+    <%- include('./partials/nav.ejs') %>
+
+
+        <main class="create-blog-wrapper">
+
+            <!-- Page Header -->
+
+            <div class="editor-header">
+
+                <h1>
+                    ✍️ Create a New Blog
+                </h1>
+
+                <p>
+                    Share your thoughts, ideas and stories with the Blogify community.
+                </p>
+
+            </div>
+
+
+            <!-- Editor Card -->
+
+            <div class="blog-editor-card">
+
+                <div class="blog-editor-body">
+
+                    <form action="/blog" method="POST" enctype="multipart/form-data">
+
+
+                        <!-- Cover Image -->
+
+                        <div class="mb-4">
+
+                            <label class="form-label">
+                                Cover Image
+                            </label>
+
+                            <div class="cover-upload">
+
+                                <input type="file" name="coverImage" class="form-control" accept="image/*" required>
+
+                                <div class="form-text mt-2">
+                                    Choose an attractive image for your blog.
+                                </div>
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- Title -->
+
+                        <div class="mb-4">
+
+                            <label for="blogTitle" class="form-label">
+                                Blog Title
+                            </label>
+
+                            <input type="text" id="blogTitle" name="title" class="form-control title-input"
+                                placeholder="Give your blog a catchy title..." maxlength="150" required>
+
+                        </div>
+
+
+                        <!-- Content -->
+
+                        <div class="mb-4">
+
+                            <label for="blogBody" class="form-label">
+                                Blog Content
+                            </label>
+
+                            <div class="editor-wrapper">
+
+                                <textarea id="blogBody" name="body"></textarea>
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- Bottom section -->
+
+                        <div class="publish-section">
+
+                            <div class="publish-info">
+
+                                <div>
+                                    📝 Write something meaningful
+                                </div>
+
+                                <small>
+                                    You can format your content using the editor above.
+                                </small>
+
+                            </div>
+
+
+                            <button type="submit" class="btn btn-primary publish-btn">
+                                Publish Blog 🚀
+                            </button>
+
+                        </div>
+
+
+                    </form>
+
+                </div>
+
+            </div>
+
+        </main>
+
+
+        <script>
+
+            tinymce.init({
+
+                selector: '#blogBody',
+
+                height: 500,
+
+                menubar: true,
+
+                plugins: [
+                    'advlist',
+                    'autolink',
+                    'lists',
+                    'link',
+                    'charmap',
+                    'preview',
+                    'anchor',
+                    'searchreplace',
+                    'visualblocks',
+                    'code',
+                    'fullscreen',
+                    'insertdatetime',
+                    'table',
+                    'wordcount'
+                ],
+
+                toolbar:
+                    'undo redo | ' +
+                    'blocks | ' +
+                    'bold italic underline strikethrough | ' +
+                    'forecolor backcolor | ' +
+                    'alignleft aligncenter alignright alignjustify | ' +
+                    'bullist numlist | ' +
+                    'outdent indent | ' +
+                    'link table | ' +
+                    'removeformat | ' +
+                    'code fullscreen',
+
+                placeholder:
+                    'Start writing your story...',
+
+                content_style: `
+                body {
+                    font-family: Arial, sans-serif;
+                    font-size: 17px;
+                    line-height: 1.7;
+                    padding: 15px;
+                }
+
+                img {
+                    max-width: 100%;
+                    height: auto;
+                }
+            `
+
+            });
+
+        </script>
+
+
+        <%- include('./partials/script.ejs') %>
+
+</body>
+
+</html>
+
+
+
+
+<!-- Original Code written -->
+
+<!-- <!DOCTYPE html>
+<html lang="en">
+
+<head>
     <%- include('./partials/head.ejs') %>
         <title>Add New Blog</title>
 </head>
 
 <body style="background-color: rgb(146, 146, 146);">
     <%- include('./partials/nav.ejs') %>
-        <!-- <%= JSON.stringify(user) %> -->
+        <!-- <%= JSON.stringify(user) %> 
         <div class="container mt-3">
             <form action="/blog" method="POST" enctype="multipart/form-data">
                 <div class="mb-3">
@@ -38,4 +389,4 @@
     <%- include('./partials/script.ejs') %>
 </body>
 
-</html>
+</html> -->

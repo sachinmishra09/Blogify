@@ -26,6 +26,7 @@ const upload = multer({ storage: storage })
 router.get('/add-new', (req, res) => {
     return res.render('addBlog', {
         user: req.user,
+        tinymceApiKey: process.env.TINYMCE_API_KEY, // for tinyMCE real time text editor
     })
 });
 
