@@ -87,7 +87,7 @@ router.post('/', upload.single("coverImage"), async (req, res) => {
 router.get('/edit/:id', async (req, res) => {
     const blog = await Blog.findById(req.params.id);
     if (!blog) return res.status(404).send('Blog not found');
-    return res.render('editBlog', { user: req.user, blog });
+    return res.render('editBlog', { user: req.user, blog, tinymceApiKey: process.env.TINYMCE_API_KEY });
 });
 
 // Handle the actual update
