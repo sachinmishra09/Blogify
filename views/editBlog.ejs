@@ -48,6 +48,7 @@
 
 
                 <form
+                    id="editBlogForm"
                     action="/blog/edit/<%= blog._id %>"
                     method="POST"
                 >
@@ -71,7 +72,7 @@
                     </div>
 
 
-                    <!-- Blog Body -->
+                    <!-- Blog Content -->
 
                     <div class="mb-4">
 
@@ -80,16 +81,19 @@
                         </label>
 
 
-                        <!-- TinyMCE textarea -->
+                        <!--
+                            Do NOT put required here.
+                            TinyMCE hides this textarea.
+                        -->
+
                         <textarea
                             id="blogBody"
                             name="body"
-                            required
                         ></textarea>
 
 
-                        <!-- Existing HTML content -->
-                        <!-- This is hidden from the user -->
+                        <!-- Existing blog content -->
+
                         <textarea
                             id="existingContent"
                             style="display: none;"
@@ -125,6 +129,10 @@
 
 
     <script>
+
+        /*
+         * Initialize TinyMCE
+         */
 
         tinymce.init({
 
@@ -165,15 +173,19 @@
                 'code fullscreen',
 
 
+            /*
+             * Load existing blog content
+             */
+
             setup: function (editor) {
 
                 editor.on('init', function () {
 
-                    // Get the existing blog HTML
                     const existingContent =
-                        document.getElementById('existingContent').value;
+                        document.getElementById(
+                            'existingContent'
+                        ).value;
 
-                    // Put the existing HTML into TinyMCE
                     editor.setContent(existingContent);
 
                 });
@@ -197,6 +209,52 @@
 
         });
 
+
+        /*
+         * Handle form submission
+         */
+
+        document
+            .getElementById('editBlogForm')
+            .addEventListener('submit', function (event) {
+
+                const editor = tinymce.get('blogBody');
+
+                /*
+                 * Get content from TinyMCE
+                 */
+
+                const content = editor
+                    .getContent()
+                    .trim();
+
+
+                /*
+                 * Check if content is empty
+                 */
+
+                if (!content || content === '<p>&nbsp;</p>') {
+
+                    event.preventDefault();
+
+                    alert('Blog content cannot be empty.');
+
+                    editor.focus();
+
+                    return;
+
+                }
+
+
+                /*
+                 * Copy TinyMCE content
+                 * into the original textarea
+                 */
+
+                tinymce.triggerSave();
+
+            });
+
     </script>
 
 
@@ -207,10 +265,7 @@
 </html>
 
 
-
-
-
-
+<!-- Original code -->
 
 <!-- <!DOCTYPE html>
 <html lang="en">
